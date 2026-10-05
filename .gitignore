@@ -1,0 +1,33 @@
+# Angular
+CustomerRegisWeb/node_modules/
+CustomerRegisWeb/dist/
+CustomerRegisWeb/.angular/
+CustomerRegisWeb/.cache/
+
+# .NET
+CustomerRegisApi/bin/
+CustomerRegisApi/obj/
+
+# Visual Studio
+.vs/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
+
+# .NET local development settings
+CustomerRegisApi/appsettings.Development.json
+
+# User-specific files
+*.user
+*.suo

@@ -1,0 +1,186 @@
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form [formGroup]="customerForm" (ngSubmit)="save()">
+                <div class="row">
+
+                    <!-- First Name -->
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input id="firstName" type="text" class="form-control" formControlName="firstName" />
+                        
+                        @if (firstName.invalid && firstName.touched) {
+                        <div class="text-danger small mt-1">
+                            @if (firstName.hasError('required')) {
+                            <span>First Name is required.</span>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input id="lastName" type="text" class="form-control" formControlName="lastName" />
+
+                        @if (lastName.invalid && lastName.touched) {
+                        <div class="text-danger small mt-1">
+                            @if (lastName.hasError('required')) {
+                            <span>Last Name is required.</span>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input id="email" type="email" class="form-control" formControlName="email" />
+
+                        @if (email.invalid && email.touched) {
+                        <div class="text-danger small mt-1">
+                            @if (email.hasError('required')) {
+                            <span>Email is required.</span>
+                            }
+                            @if (email.hasError('email')) {
+                            <span>Invalid email format.</span>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="col-md-6 mb-3">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input id="phone" type="tel" class="form-control" formControlName="phone" />
+
+                        @if (phone.invalid && phone.touched) {
+                        <div class="text-danger small mt-1">
+                            @if (phone.hasError('required')) {
+                            <span>Phone is required.</span>
+                            }
+                            @if (phone.hasError('pattern')) {
+                            <span>
+                                Phone must contain 9-10 digits.
+                            </span>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Profile -->
+                    <div class="col-md-6 mb-3">
+                        <label for="profile" class="form-label">Profile</label>
+                        <input #profileInput id="profile" type="file" class="form-control" accept="image/*"
+                            (change)="onProfileSelected($event)" />
+
+                        @if (selectedProfileName) {
+                        <div class="form-text">
+                            {{ selectedProfileName }}
+                        </div>
+                        }
+
+                        @if (profile.invalid && profile.touched) {
+                        <div class="text-danger small mt-1">
+                            Profile image is required.
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Birth Day -->
+                    <div class="col-md-6 mb-3">
+                        <label for="birthDay" class="form-label">Birth Day</label>
+                        <input id="birthDay" type="date" class="form-control" formControlName="birthDay" />
+
+                        @if (birthDay.invalid && birthDay.touched) {
+                        <div class="text-danger small mt-1">
+                            Birth Day is required.
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Occupation -->
+                    <div class="col-md-6 mb-3">
+                        <label for="occupation" class="form-label">Occupation</label>
+                        <select id="occupationId" class="form-select" formControlName="occupationId">
+                            <option [ngValue]="null">
+                                -- Select Occupation --
+                            </option>
+                    
+                            @for (occupation of occupations; track occupation.id) {
+                            <option [ngValue]="occupation.id">
+                                {{ occupation.name }}
+                            </option>
+                            }
+                        </select>
+                    
+                        @if (occupationId.invalid && occupationId.touched) {
+                        <div class="text-danger small mt-1">
+                            Occupation is required.
+                        </div>
+                        }
+                    </div>
+
+                    <div class="col-md-6 mb-3"></div>
+                    <!-- Sex -->
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label d-block">Sex</label>
+                        <div class="d-flex gap-4">
+                            <div class="form-check">
+                                <input id="male" class="form-check-input" type="radio" formControlName="genderId" [value]="1" />
+                                <label for="male" class="form-check-label">Male</label>
+                            </div>
+                            <div class="form-check">
+                                <input id="female" class="form-check-input" type="radio" formControlName="genderId" [value]="2" />
+                                <label for="female" class="form-check-label">Female</label>
+                            </div>
+                        </div>
+
+                        @if (genderId.invalid && genderId.touched) {
+                        <div class="text-danger small mt-1">
+                            Sex is required.
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Error -->
+                    @if (errorMessage) {
+                    <div class="col-12 mb-3">
+                        <div class="alert alert-danger mb-0">
+                            {{ errorMessage }}
+                        </div>
+                    </div>
+                    }
+
+                    <!-- Success -->
+                    @if (successMessage) {
+                    <div class="col-12 mb-3">
+                        <div class="alert alert-success mb-0">
+                            {{ successMessage }}
+                        </div>
+                    </div>
+                    }
+
+                    <div class="col-12">
+                        <div class="d-flex justify-content-center gap-2">
+                             <!-- Save -->
+                            <button type="submit" class="btn btn-primary" [disabled]="customerForm.invalid || isSaving">
+                                @if (isSaving) {
+                                Saving...
+                                } @else {
+                                Save
+                                }
+                            </button>
+
+                            <!-- Clear -->
+                            <button type="button" class="btn btn-outline-secondary" (click)="clearForm()"
+                                [disabled]="isSaving">
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
